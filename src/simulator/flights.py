@@ -44,7 +44,7 @@ def generate_flights(num_flights: int) -> pd.DataFrame:
         departure_dt = departure_dates[i]
 
         origin , destination = route.split("-")
-        distance_km = ROUTE_DISTANCE_KM(route,1500)
+        distance_km = ROUTE_DISTANCE_KM.get(route,1500)
         season = _assign_season(departure_dt)
         route_type = ROUTE_TYPE_MAP.get(route,"business")
 
