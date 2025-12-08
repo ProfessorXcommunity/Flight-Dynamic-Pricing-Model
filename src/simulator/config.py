@@ -47,7 +47,7 @@ SEASON_OFFPEAK_MULTIPLIER = 0.7
 SEASON_NORMAL_MULTIPLIER = 1.0
 
 TIME_BUCKETS = [
-(60, 0.3),   # >60 days out: low demand
+    (60, 0.3),   # >60 days out: low demand
     (30, 0.6),   # 60–31
     (7, 1.0),    # 30–8
     (0, 1.4), 

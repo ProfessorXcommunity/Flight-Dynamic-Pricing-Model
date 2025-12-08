@@ -49,4 +49,33 @@ def price_factor(price: float,competitor_price: float) -> float:
     rel_price = price/competitor_price
     beta = PRICE_ELASTICITY_BETA
 
-    factor = np.exp(-beta * (rel))
+    factor = np.exp(-beta * (rel_price - 1.0))
+    return float(np.clip(factor,0.1,2.5))
+
+
+def expected_demand_lambda(
+        route_type: str,
+        season: str,
+        days_to_departure: int,
+        is_weekend: bool,
+        price: float,
+        competitor_price: float
+) -> float:
+    
+    base = BASE_DEMAND_BUSINESS
+    lam = (
+        base
+        * _route_factor(route_type)
+        * _season_factor(season)
+        * _time_factor(days_to_departure)
+        * _weekend_factor(is_weekend)
+        * price_factor(price, competitor_price)
+    )
+    return float(max(lam,0.0))  #recheck
+
+def sample_bookings(lam: float,remaining_seats: int) -> int:
+    if remaining_seats <= 0 or lam <= 0:
+        return 0
+    
+    bookings = rng.poisson(lam)
+    return int(min(bookings, remaining_seats))
